@@ -81,15 +81,15 @@ public class RestSpringBootController implements InitializingBean {
 				
 				List<Rsi> r = this.rsiData.getFirstNDocumentSortedBy(collName, "openTime", Sort.Direction.DESC, 2);
 				
-				rs.setLastOpenTime(r.get(1).getOpenTime());
+				rs.setLastOpenTime(r.get(0).getOpenTime());
 				
 				List<BinanceKline> bK = this.klineData.getFirstNDocumentSortedBy(parityCollName, "openTime", Sort.Direction.DESC, 2);
 				
-				rs.setLastClose(bK.get(1).getClose());
-				rs.setPreviousClose(bK.get(0).getClose());
+				rs.setLastClose(bK.get(0).getClose());
+				rs.setPreviousClose(bK.get(1).getClose());
 				
-				rs.setLastRsi(r.get(1).getRSI().divide(BigDecimal.ONE, 2, RoundingMode.HALF_EVEN).doubleValue());
-				rs.setPreviousRsi(r.get(0).getRSI().divide(BigDecimal.ONE, 2, RoundingMode.HALF_EVEN).doubleValue());
+				rs.setLastRsi(r.get(0).getRSI().divide(BigDecimal.ONE, 2, RoundingMode.HALF_EVEN).doubleValue());
+				rs.setPreviousRsi(r.get(1).getRSI().divide(BigDecimal.ONE, 2, RoundingMode.HALF_EVEN).doubleValue());
 				
 				rs.setSignal(rsiSignal(rs.getPreviousRsi(), rs.getLastRsi()));
 				
